@@ -1,19 +1,29 @@
-pipeline{
-  agent any
-  stages{
-    stage("build"){
-          steps{
-            echo 'build an application..'
-          }
-            stage("test"){
-          steps{
-            echo 'test an application..'
-          }
-                    stage("deploy"){
-          steps{
-            echo 'deploy an application..'
-          }
-          }
-          }
-          } 
-        
+
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN"
+        jdk "JDK"
+    }
+    stages {
+        stage('Initialize'){
+            steps{
+                echo "PATH = ${M2_HOME}/bin:${PATH}"
+                echo "M2_HOME = /opt/maven"
+            }
+        }
+        stage('Build') {
+            steps { 
+                sh 'mvn -B -DskipTests clean package'
+                }
+            }
+        }
+     }
+    post {
+       always {
+          junit(
+        allowEmptyResults: true,
+        testResults: '*/test-reports/.xml'
+      )
+      }
+   } 
