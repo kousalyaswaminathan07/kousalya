@@ -16,6 +16,4 @@ pipeline{
           }
           }
           } 
-          node{
-            //groovy scripts
-          }
+        
