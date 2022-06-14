@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build') {
             steps { 
-                echo 'Building an appkication..'
+                sh mvn clean install
                 }
             }
         }
